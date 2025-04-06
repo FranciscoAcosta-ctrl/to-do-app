@@ -9,9 +9,11 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
   const [newTaskText, setNewTaskText] = useState('');
   const [showDescriptionInput, setShowDescriptionInput] = useState(false);
   const [newTaskDescription, setNewTaskDescription] = useState('');
+  const [titleError, setTitleError] = useState('');
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewTaskText(event.target.value);
+    setTitleError(''); // Limpiar el error al escribir
   };
 
   const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -32,6 +34,9 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
       setNewTaskText('');
       setNewTaskDescription('');
       setShowDescriptionInput(false);
+      setTitleError('');
+    } else {
+      setTitleError('El título de la tarea no puede estar vacío.');
     }
   };
 
@@ -45,16 +50,17 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
           onChange={handleInputChange}
           className={styles.input}
         />
-        <button type="submit" className={styles.addButton}>
-          Agregar
+        <button type="submit" className={styles.addButton} aria-label="Agregar nueva tarea">
+          Crear
         </button>
       </div>
+      {titleError && <p className={styles.error}>{titleError}</p>}
       <button
         type="button"
         onClick={handleToggleDescriptionInput}
         className={styles.addDescriptionButton}
       >
-        {showDescriptionInput ? 'Ocultar Descripción' : 'Agregar + Descripción'}
+        {showDescriptionInput ? 'Ocultar Descripción' : '+ Detalles'}
       </button>
       {showDescriptionInput && (
         <textarea

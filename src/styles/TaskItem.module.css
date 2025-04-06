@@ -1,10 +1,11 @@
 .taskItem {
   display: flex;
-  flex-direction: column; /* Cambiamos a disposición de columna */
-  padding: 15px; /* Aumentamos el padding general */
-  margin-bottom: 10px; /* Añadimos margen inferior entre tareas */
+  flex-direction: column; /* Mantenemos la disposición de columna */
+  padding: 15px;
+  margin-bottom: 10px;
   border-bottom: 1px solid #eee;
   font-size: 16px;
+  word-break: break-word; /* Añadimos esta propiedad */
 }
 
 .taskItem:last-child {
@@ -14,7 +15,7 @@
 .taskHeader {
   display: flex;
   align-items: center;
-  margin-bottom: 8px; /* Espacio entre el encabezado y la descripción/fecha */
+  margin-bottom: 8px;
 }
 
 .checkbox {
@@ -26,32 +27,33 @@
 
 .taskText {
   flex-grow: 1;
-  font-weight: bold; /* Resaltamos el título */
+  font-weight: bold;
 }
 
 .createdAt {
   color: #aaa;
   font-size: 0.8em;
-  margin-left: auto; /* Lo empujamos a la derecha */
+  margin-left: auto;
 }
 
 .taskDescriptionContainer {
-  margin-bottom: 8px; /* Espacio debajo del contenedor de la descripción */
+  margin-bottom: 8px;
 }
 
 .taskDescriptionShort {
   color: #777;
   font-size: 0.9em;
   cursor: pointer;
-  white-space: nowrap; /* Evita el salto de línea inicial */
-  overflow: hidden; /* Oculta el texto que se desborda */
-  text-overflow: ellipsis; /* Muestra "..." para indicar texto oculto */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .taskDescriptionFull {
   color: #555;
   font-size: 0.9em;
-  white-space: pre-wrap; /* Respeta los saltos de línea */
+  white-space: pre-wrap; /* Mantenemos para respetar saltos de línea */
+  word-break: break-word; /* Añadimos esta propiedad importante */
 }
 
 .deleteButton {
@@ -62,8 +64,8 @@
   cursor: pointer;
   font-size: 14px;
   transition: color 0.3s ease;
-  align-self: flex-end; /* Lo movemos a la esquina inferior derecha */
-  margin-top: 10px; /* Espacio desde la descripción */
+  align-self: flex-end;
+  margin-top: 10px;
 }
 
 .deleteButton:hover {

@@ -10,6 +10,7 @@ interface TaskItemProps {
 
 const TaskItem: React.FC<TaskItemProps> = ({ task, onToggleComplete, onDeleteTask }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const descriptionToShow = showFullDescription ? task.description : task.description?.substring(0, 50) + (task.description && task.description?.length > 50 ? '...' : '');
 
   const handleToggleDescription = () => {
     setShowFullDescription(!showFullDescription);
@@ -39,7 +40,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onToggleComplete, onDeleteTas
         >
           {task.text}
         </span>
-        <span className={styles.createdAt}>{formattedDate}</span> {/* Fecha a la derecha */}
+        <span className={styles.createdAt}>{formattedDate}</span>
       </div>
       {task.description && (
         <div className={styles.taskDescriptionContainer}>
@@ -50,7 +51,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onToggleComplete, onDeleteTas
             onClick={handleToggleDescription}
             style={{ cursor: 'pointer' }}
           >
-            {showFullDescription ? task.description : `(${task.description})`}
+            ({descriptionToShow})
           </span>
         </div>
       )}
