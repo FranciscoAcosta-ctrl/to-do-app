@@ -1,0 +1,12 @@
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.taskList {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
