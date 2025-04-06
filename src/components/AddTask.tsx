@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import styles from '../styles/AddTask.module.css';
+import { motion } from 'framer-motion';
 
 interface AddTaskProps {
   onAddTask: (text: string, description?: string) => void;
@@ -41,7 +42,13 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.addTaskContainer}>
+    <motion.form
+      onSubmit={handleSubmit}
+      className={styles.addTaskContainer}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
       <div className={styles.inputGroup}>
         <input
           type="text"
@@ -70,7 +77,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
           className={styles.descriptionInput}
         />
       )}
-    </form>
+    </motion.form>
   );
 };
 

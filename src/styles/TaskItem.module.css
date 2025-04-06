@@ -1,11 +1,11 @@
 .taskItem {
   display: flex;
-  flex-direction: column; /* Mantenemos la disposición de columna */
+  flex-direction: column;
   padding: 15px;
   margin-bottom: 10px;
   border-bottom: 1px solid #eee;
   font-size: 16px;
-  word-break: break-word; /* Añadimos esta propiedad */
+  word-break: break-word;
 }
 
 .taskItem:last-child {
@@ -52,8 +52,8 @@
 .taskDescriptionFull {
   color: #555;
   font-size: 0.9em;
-  white-space: pre-wrap; /* Mantenemos para respetar saltos de línea */
-  word-break: break-word; /* Añadimos esta propiedad importante */
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .deleteButton {

@@ -8,6 +8,7 @@ import AddTask from '@/components/AddTask';
 import TaskItem from '@/components/TaskItem';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import styles from '../styles/Home.module.css';
+import { AnimatePresence } from 'framer-motion';
 
 const Home: NextPage = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -56,14 +57,16 @@ const Home: NextPage = () => {
       <h1>Mi Lista de Tareas</h1>
       <AddTask onAddTask={handleAddTask} />
       <ul className={styles.taskList}>
-        {tasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            onToggleComplete={handleToggleComplete}
-            onDeleteTask={handleDeleteClick}
-          />
-        ))}
+        <AnimatePresence>
+          {tasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              onToggleComplete={handleToggleComplete}
+              onDeleteTask={handleDeleteClick}
+            />
+          ))}
+        </AnimatePresence>
       </ul>
 
       <ConfirmationModal

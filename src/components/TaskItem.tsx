@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Task } from '@/interface/task';
 import styles from '../styles/TaskItem.module.css';
+import { motion } from 'framer-motion';
 
 interface TaskItemProps {
   task: Task;
@@ -26,7 +27,14 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onToggleComplete, onDeleteTas
   });
 
   return (
-    <li key={task.id} className={styles.taskItem}>
+    <motion.li
+      key={task.id}
+      className={styles.taskItem}
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.2 }}
+    >
       <div className={styles.taskHeader}>
         <input
           type="checkbox"
@@ -36,7 +44,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onToggleComplete, onDeleteTas
         />
         <span
           className={styles.taskText}
-          style={{ textDecoration: task.completed ? 'line-through' : 'none' }}
+          style={{ textDecoration: task.completed ? 'line-through' : 'none', transition: 'color 0.3s ease', color: task.completed ? '#888' : 'inherit' }}
         >
           {task.text}
         </span>
@@ -44,21 +52,23 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onToggleComplete, onDeleteTas
       </div>
       {task.description && (
         <div className={styles.taskDescriptionContainer}>
-          <span
+          <motion.span
             className={
               showFullDescription ? styles.taskDescriptionFull : styles.taskDescriptionShort
             }
             onClick={handleToggleDescription}
             style={{ cursor: 'pointer' }}
+            animate={{ opacity: showFullDescription ? 1 : 0.7 }}
+            transition={{ duration: 0.2 }}
           >
             ({descriptionToShow})
-          </span>
+          </motion.span>
         </div>
       )}
       <button onClick={() => onDeleteTask(task.id)} className={styles.deleteButton}>
         Eliminar
       </button>
-    </li>
+    </motion.li>
   );
 };
 

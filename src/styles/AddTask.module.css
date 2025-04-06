@@ -4,7 +4,7 @@
 
 .inputGroup {
   display: flex;
-  margin-bottom: 5px; /* Reducimos el margen inferior */
+  margin-bottom: 5px;
 }
 
 .input {
@@ -12,13 +12,13 @@
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin-right: 10px; /* Reducimos el margen derecho */
+  margin-right: 10px;
   font-size: 16px;
 }
 
 .addButton {
   padding: 10px 15px;
-  background-color: #007bff; /* Un azul más estándar para el botón principal */
+  background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -35,10 +35,10 @@
   background-color: transparent;
   color: #555;
   border: none;
-  padding: 5px 10px; /* Reducimos el padding vertical */
+  padding: 5px 10px;
   cursor: pointer;
-  font-size: 0.9em; /* Tamaño de fuente un poco más pequeño */
-  margin-top: 5px; /* Reducimos el margen superior */
+  font-size: 0.9em;
+  margin-top: 5px;
   transition: color 0.3s ease;
 }
 
