@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import ScrumBoard from "./ScrumBoard";
 import { Task } from "@/interface/task";
-import { ClipboardDocumentListIcon, HomeIcon } from "@heroicons/react/16/solid";
+import { ClipboardDocumentListIcon, HomeIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import TaskListView from "./TaskListView";
 
 interface DashboardProps {
@@ -16,9 +16,8 @@ const Dashboard: React.FC<DashboardProps> = ({
   onUpdateTasks,
 }) => {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
-  const [activeSection, setActiveSection] = useState<
-    "createNote" | "scrumBoard"
-  >("createNote");
+  const [activeSection, setActiveSection] = useState<"createNote" | "scrumBoard">("createNote");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleUpdateTask = (updatedTask: Task) => {
     const updated = tasks.map((task) =>
@@ -34,28 +33,45 @@ const Dashboard: React.FC<DashboardProps> = ({
     onUpdateTasks(updated);
   };
 
-  const handleAddTask = (task: Task) => {
-    const updated = [task, ...tasks];
+  const handleAddTask = (newTask: Task) => {
+    const updated = [...tasks, newTask];
     setTasks(updated);
     onUpdateTasks(updated);
   };
 
   return (
     <div className="flex h-screen w-screen overflow-hidden">
+      {/* Mobile menu toggle */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="fixed top-4 left-4 z-50 md:hidden p-2 bg-neutral-800 text-white rounded-md"
+      >
+        {sidebarOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
+      </button>
+
       {/* Sidebar */}
-      <aside className="w-64 bg-neutral-900 p-6 border-r border-neutral-800 flex flex-col justify-between">
+      <aside
+        className={`fixed md:static z-40 h-full w-64 bg-neutral-900 p-6 border-r border-neutral-800 flex flex-col justify-between transform transition-transform duration-300 ease-in-out
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+      >
         <nav className="space-y-2">
           <SidebarButton
             icon={HomeIcon}
             label="Crear Nota"
             active={activeSection === "createNote"}
-            onClick={() => setActiveSection("createNote")}
+            onClick={() => {
+              setActiveSection("createNote");
+              setSidebarOpen(false);
+            }}
           />
           <SidebarButton
             icon={ClipboardDocumentListIcon}
             label="Tablero"
             active={activeSection === "scrumBoard"}
-            onClick={() => setActiveSection("scrumBoard")}
+            onClick={() => {
+              setActiveSection("scrumBoard");
+              setSidebarOpen(false);
+            }}
           />
         </nav>
         <footer className="text-sm text-neutral-500 pt-4">

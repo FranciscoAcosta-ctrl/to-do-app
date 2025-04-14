@@ -39,7 +39,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
       className="space-y-4 text-white animate-fade-in"
     >
       <div>
-        <label className="block text-sm font-semibold mb-1">
+        <label className="block text-sm font-semibold mt-8 mb-1">
           Título de la tarea
         </label>
         <input
