@@ -7,7 +7,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'NotionClone | Tu espacio de ideas',
+  title: 'To-Do App | Tu espacio de ideas',
   description: 'Organiza tus notas y tareas con estilo minimalista y productividad.',
 };
 
