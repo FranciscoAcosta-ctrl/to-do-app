@@ -1,83 +1,82 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import styles from '../styles/AddTask.module.css';
-import { motion } from 'framer-motion';
+import React, { useState } from "react";
+import { Task, TaskStatus } from "@/interface/task";
 
 interface AddTaskProps {
-  onAddTask: (text: string, description?: string) => void;
+  onAddTask: (task: Task) => void;
 }
 
 const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
-  const [newTaskText, setNewTaskText] = useState('');
-  const [showDescriptionInput, setShowDescriptionInput] = useState(false);
-  const [newTaskDescription, setNewTaskDescription] = useState('');
-  const [titleError, setTitleError] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [success, setSuccess] = useState(false);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setNewTaskText(event.target.value);
-    setTitleError(''); // Limpiar el error al escribir
-  };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setNewTaskDescription(event.target.value);
-  };
-
-  const handleToggleDescriptionInput = () => {
-    setShowDescriptionInput(!showDescriptionInput);
-    if (showDescriptionInput) {
-      setNewTaskDescription('');
+    if (!title.trim()) {
+      alert("El título es obligatorio.");
+      return;
     }
-  };
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    if (newTaskText.trim()) {
-      onAddTask(newTaskText, showDescriptionInput ? newTaskDescription.trim() : undefined);
-      setNewTaskText('');
-      setNewTaskDescription('');
-      setShowDescriptionInput(false);
-      setTitleError('');
-    } else {
-      setTitleError('El título de la tarea no puede estar vacío.');
-    }
+    const newTask: Task = {
+      id: Date.now().toString(),
+      title,
+      description,
+      creationDate: new Date(),
+      status: TaskStatus.Todo,
+    };
+
+    onAddTask(newTask);
+    setTitle("");
+    setDescription("");
+    setSuccess(true);
+    setTimeout(() => setSuccess(false), 1500);
   };
 
   return (
-    <motion.form
+    <form
       onSubmit={handleSubmit}
-      className={styles.addTaskContainer}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      className="space-y-4 text-white animate-fade-in"
     >
-      <div className={styles.inputGroup}>
+      <div>
+        <label className="block text-sm font-semibold mb-1">
+          Título de la tarea
+        </label>
         <input
           type="text"
-          placeholder="Nueva tarea"
-          value={newTaskText}
-          onChange={handleInputChange}
-          className={styles.input}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Ej: Escribir resumen de proyecto"
+          className="w-full bg-neutral-800 text-white border border-neutral-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-neutral-500"
         />
-        <button type="submit" className={styles.addButton} aria-label="Agregar nueva tarea">
-          Crear
-        </button>
       </div>
-      {titleError && <p className={styles.error}>{titleError}</p>}
-      <button
-        type="button"
-        onClick={handleToggleDescriptionInput}
-        className={styles.addDescriptionButton}
-      >
-        {showDescriptionInput ? 'Ocultar Descripción' : '+ Detalles'}
-      </button>
-      {showDescriptionInput && (
+
+      <div>
+        <label className="block text-sm font-semibold mb-1">
+          Descripción (opcional)
+        </label>
         <textarea
-          placeholder="Descripción detallada (opcional)"
-          value={newTaskDescription}
-          onChange={handleDescriptionChange}
-          className={styles.descriptionInput}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Detalles adicionales, links, recordatorios, etc."
+          className="w-full bg-neutral-800 text-white border border-neutral-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-neutral-500"
+          rows={4}
         />
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-blue-600 hover:bg-blue-700 transition-colors duration-300 text-white font-medium py-3 rounded-lg"
+      >
+        Agregar Tarea
+      </button>
+
+      {success && (
+        <p className="text-green-500 text-sm font-medium animate-pulse">
+          ✅ Tarea agregada correctamente
+        </p>
       )}
-    </motion.form>
+    </form>
   );
 };
 

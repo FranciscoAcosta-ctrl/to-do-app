@@ -1,73 +1,50 @@
-.taskItem {
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #eee;
-  font-size: 16px;
-  word-break: break-word;
-}
+/* components/TaskItem.module.css */
 
-.taskItem:last-child {
-  border-bottom: none;
-}
-
-.taskHeader {
+.item {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.checkbox {
-  margin-right: 15px;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
+.item h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
 }
 
-.taskText {
-  flex-grow: 1;
-  font-weight: bold;
+.item p {
+  margin: 5px 0;
+  color: #666;
 }
 
-.createdAt {
-  color: #aaa;
-  font-size: 0.8em;
-  margin-left: auto;
-}
-
-.taskDescriptionContainer {
-  margin-bottom: 8px;
-}
-
-.taskDescriptionShort {
-  color: #777;
-  font-size: 0.9em;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.taskDescriptionFull {
-  color: #555;
-  font-size: 0.9em;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.deleteButton {
-  background-color: transparent;
-  color: #dc3545;
+.item button {
+  padding: 8px 12px;
   border: none;
-  padding: 8px 15px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
-  transition: color 0.3s ease;
-  align-self: flex-end;
-  margin-top: 10px;
+  transition: background-color 0.3s ease;
 }
 
-.deleteButton:hover {
-  color: #c82333;
+.item button:first-of-type {
+  background-color: #007bff;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.item button:first-of-type:hover {
+  background-color: #0056b3;
+}
+
+.item button:last-of-type {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.item button:last-of-type:hover {
+  background-color: #c82333;
 }

@@ -1,82 +1,52 @@
 "use client";
 
-import type { NextPage } from 'next';
-import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { Task } from '@/interface/task';
-import AddTask from '@/components/AddTask';
-import TaskItem from '@/components/TaskItem';
-import ConfirmationModal from '@/components/ConfirmationModal';
-import styles from '../styles/Home.module.css';
-import { AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState } from "react";
+import Dashboard from "@/components/Dashboard";
+import {
+  getTasksFromLocalStorage,
+  saveTasksToLocalStorage,
+} from "@/utils/localStorage";
+import { Task } from "@/interface/task";
 
-const Home: NextPage = () => {
+export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const handleAddTask = (text: string, description?: string) => {
-    const newTask: Task = {
-      id: uuidv4(),
-      text,
-      completed: false,
-      description,
-      createdAt: new Date(),
+  useEffect(() => {
+    const loadTasks = () => {
+      try {
+        const stored = getTasksFromLocalStorage();
+        setTasks(stored);
+      } catch (err) {
+        console.error("Error al cargar tareas:", err);
+      } finally {
+        setLoading(false);
+      }
     };
-    setTasks([...tasks, newTask]);
-  };
 
-  const handleToggleComplete = (id: string) => {
-    const updatedTasks = tasks.map((task) =>
-      task.id === id ? { ...task, completed: !task.completed } : task
-    );
-    setTasks(updatedTasks);
-  };
+    loadTasks();
+  }, []);
 
-  const handleDeleteClick = (id: string) => {
-    setTaskToDelete(id);
-    setIsConfirmationModalOpen(true);
-  };
-
-  const handleConfirmDelete = () => {
-    if (taskToDelete) {
-      const updatedTasks = tasks.filter((task) => task.id !== taskToDelete);
-      setTasks(updatedTasks);
-      setTaskToDelete(null);
+  const handleUpdateTasks = (updated: Task[]) => {
+    try {
+      saveTasksToLocalStorage(updated);
+      setTasks(updated);
+    } catch (err) {
+      console.error("Error al guardar tareas:", err);
     }
-    setIsConfirmationModalOpen(false);
   };
 
-  const handleCancelDelete = () => {
-    setIsConfirmationModalOpen(false);
-    setTaskToDelete(null);
-  };
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen text-white text-lg">
+        <span className="animate-pulse">Cargando tareas...</span>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.container}>
-      <h1>Mi Lista de Tareas</h1>
-      <AddTask onAddTask={handleAddTask} />
-      <ul className={styles.taskList}>
-        <AnimatePresence>
-          {tasks.map((task) => (
-            <TaskItem
-              key={task.id}
-              task={task}
-              onToggleComplete={handleToggleComplete}
-              onDeleteTask={handleDeleteClick}
-            />
-          ))}
-        </AnimatePresence>
-      </ul>
-
-      <ConfirmationModal
-        isOpen={isConfirmationModalOpen}
-        onClose={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
-        message="¿Estás seguro de que deseas eliminar esta tarea?"
-      />
+    <div className="h-screen w-screen overflow-hidden">
+      <Dashboard initialTasks={tasks} onUpdateTasks={handleUpdateTasks} />
     </div>
   );
-};
-
-export default Home;
+}
